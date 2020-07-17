@@ -53,7 +53,7 @@ const App = ()=>{
         setLoading(false);
     }
     //Set alert
-    setAlert = (msg, type) =>{
+    const showAlert = (msg, type) =>{
         setAlert({msg, type});
         setTimeout(() => setAlert(null),5000)
     }
@@ -68,7 +68,7 @@ const App = ()=>{
                    <Switch>
                        <Route exact path="/" render={props =>(
                            <Fragment>
-                               <Search searchUsers={searchUsers} clearUsers={clearUsers} showClear={users.length > 0 ? true : false} setAlert={setAlert}/>
+                               <Search searchUsers={searchUsers} clearUsers={clearUsers} showClear={users.length > 0 ? true : false} setAlert={showAlert}/>
                                <Users loading={loading} users={users}/>
                            </Fragment>
                        )}/>
