@@ -9,9 +9,9 @@ import {
     GET_USER,
     GET_REPOS
 } from "../types";
-import {createPortal} from "react-dom";
 
 const GithubState = props => {
+
     const initialState = {
         users:[],
         user:{},
@@ -19,6 +19,7 @@ const GithubState = props => {
         loading:false
     }
     const [state, dispatch] = useReducer(githubReducer,initialState);
+
     // search github users
     const searchUsers = async (text) => {
         setLoading();// calls setloading
@@ -30,9 +31,33 @@ const GithubState = props => {
             payload: res.data.items, // with the data
         })
     };
-    //Get user
-    //get repos
-    //clear users
+
+    // GET single userpage
+    const getUser = async (userName) => {
+        setLoading();
+        const res = await axios.get(
+            `https://api.github.com/users/${userName}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+        );
+        dispatch(
+            {type: GET_USER,
+             payload: res.data
+            });
+    }
+
+    //Get users repos
+    const getUserRepos = async (userName) => {
+        setLoading();
+        const res = await axios.get(
+            `https://api.github.com/users/${userName}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+        );
+        dispatch({
+            type:GET_REPOS,
+            payload:res.data,
+        });
+    }
+
+    // clear users from state
+    const clearUsers = () => dispatch({type:CLEAR_USERS});
     //set loading
     const setLoading = () => {
         dispatch({type: SET_LOADING});// dispatches  the type of setloading to the reducer
@@ -43,7 +68,10 @@ const GithubState = props => {
             user: state.user,
             repos:state.repos,
             loading: state.loading,
-            searchUsers
+            searchUsers,
+            clearUsers,
+            getUser,
+            getUserRepos,
     }}
     >
         {props.children}
