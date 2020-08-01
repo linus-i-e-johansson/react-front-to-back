@@ -62,7 +62,7 @@ const App = ()=>{
                         <Switch>
                             <Route exact path="/" render={props =>(
                                 <Fragment>
-                                    <Search searchUsers={searchUsers} clearUsers={clearUsers} showClear={users.length > 0 ? true : false} setAlert={showAlert}/>
+                                    <Search clearUsers={clearUsers} showClear={users.length > 0 ? true : false} setAlert={showAlert}/>
                                     <Users loading={loading} users={users}/>
                                 </Fragment>
                             )}/>
