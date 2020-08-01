@@ -27,7 +27,7 @@ const GithubState = props => {
         );
         dispatch({ //
             type: SEARCH_USERS, // dispatches the type of searchusers
-            payload: res.data, // with the data
+            payload: res.data.items, // with the data
         })
     };
     //Get user
